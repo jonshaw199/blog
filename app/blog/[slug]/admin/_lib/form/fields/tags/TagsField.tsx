@@ -3,7 +3,7 @@ import { create } from "@/blog/[slug]/admin/_lib/form/fields/tags/mutations";
 import { index } from "@/blog/[slug]/admin/_lib/form/fields/tags/queries";
 import { PostFormValues } from "@/blog/[slug]/admin/_lib/schema";
 import { Tables } from "@/blog/_lib/supabase/database";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { ActionMeta, MultiValue } from "react-select";
 import makeAnimated from "react-select/animated";
@@ -26,9 +26,7 @@ const loadOptions = async ({
 };
 
 export default function TagsField({ tags }: { tags: Tables<"tags">[] }) {
-  const { watch, setValue } = useFormContext<PostFormValues>();
-  const tagIds = watch("tagIds");
-  console.log(tagIds);
+  const { setValue } = useFormContext<PostFormValues>();
   const [options, setOptions] = useState<TagOption[]>();
   const [selected, setSelected] = useState<TagOption[]>(
     tags.map(({ id, name }) => ({ label: name, value: id })),
@@ -93,6 +91,7 @@ export default function TagsField({ tags }: { tags: Tables<"tags">[] }) {
         isLoading={!options}
         loadOptions={(searchStr) => loadOptions({ searchStr })}
         defaultOptions={options}
+        instanceId="tags"
       />
     </FieldContainer>
   );

@@ -1,12 +1,12 @@
 import Button from "@/_lib/button/Button";
-import { UploadMediaResult } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/actions";
+import { UploadMediaResult } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/actions";
 
 export default function LibraryItem({
   item,
   onSelect,
 }: {
   item: UploadMediaResult;
-  onSelect?: (item: UploadMediaResult) => void;
+  onSelect: (url: string) => void;
 }) {
   const { media, url } = item;
   const dimensions =
@@ -32,7 +32,7 @@ export default function LibraryItem({
         </p>
       </div>
 
-      <Button primary onClick={() => onSelect?.(item)}>
+      <Button primary onClick={() => onSelect(item.url)}>
         Select
       </Button>
     </div>

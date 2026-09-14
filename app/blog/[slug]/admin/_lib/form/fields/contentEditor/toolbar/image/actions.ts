@@ -8,7 +8,15 @@ export type UploadMediaResult = {
   url: string;
 };
 
-export async function uploadMedia(file: File): Promise<UploadMediaResult> {
+export async function uploadMedia({
+  file,
+  width,
+  height,
+}: {
+  file: File;
+  width: number;
+  height: number;
+}): Promise<UploadMediaResult> {
   const supabase = await createServerClient();
 
   if (!file || file.size === 0) {
@@ -37,6 +45,8 @@ export async function uploadMedia(file: File): Promise<UploadMediaResult> {
       path,
       mime_type: file.type,
       alt_text: file.name,
+      width,
+      height,
     })
     .select()
     .single();

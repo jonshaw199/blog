@@ -1,23 +1,44 @@
-import { uploadMedia } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/actions";
-import { createBrowserClient } from "@/blog/_lib/supabase/client/browser";
-import Quill from "quill";
+import {
+  uploadMedia,
+  UploadMediaResult,
+} from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/actions";
 
-export async function uploadImage(this: { quill: Quill }) {
-  const input = document.createElement("input");
+function getImageDimensions(
+  file: File,
+): Promise<{ width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      resolve({ width: img.naturalWidth, height: img.naturalHeight });
+      URL.revokeObjectURL(img.src);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(img.src);
+      reject(new Error("Could not read image dimensions"));
+    };
+    img.src = URL.createObjectURL(file);
+  });
+}
 
-  input.type = "file";
-  input.accept = "image/*";
-  input.click();
-
-  input.onchange = async () => {
-    const file = input.files?.[0];
-    if (!file) return;
-
-    const { url } = await uploadMedia(file);
-
-    const range = this.quill.getSelection(true);
-
-    this.quill.insertEmbed(range.index, "image", url, "user");
-    this.quill.setSelection(range.index + 1, 0, "silent");
-  };
+export function uploadImage(): Promise<UploadMediaResult | null> {
+  return new Promise((resolve, reject) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (!file) {
+        resolve(null);
+        return;
+      }
+      try {
+        const { width, height } = await getImageDimensions(file);
+        const result = await uploadMedia({ file, width, height });
+        resolve(result);
+      } catch (error) {
+        reject(error);
+      }
+    };
+    input.click();
+  });
 }
