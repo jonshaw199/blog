@@ -7,8 +7,15 @@ import FieldContainer from "@/_lib/form/fields/FieldContainer";
 import { ComponentProps, RefObject, useRef, useState } from "react";
 import ImageActionsModal from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/ImageActionsModal";
 import ReactQuill from "react-quill-new";
-import { uploadImage } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/utils";
-import { UploadMediaResult } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/actions";
+import {
+  addMediaToEditor,
+  uploadImage,
+} from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/utils";
+import {
+  updateMediaMetadata,
+  MediaWithUrl,
+} from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/actions";
+import { UploadConfirmationFormValues } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/UploadConfirmation";
 
 const ReactQuillComponent = dynamic(
   async () => {
@@ -43,26 +50,46 @@ export default function ContentEditorField() {
   const { watch, setValue } = useFormContext<PostFormValues>();
   const [showModal, setShowModal] = useState(false);
   const quillRef = useRef<ReactQuill>(null);
-  const [uploadMediaResult, setUploadMediaResult] =
-    useState<UploadMediaResult | null>(null);
+  const [uploadedMedia, setUploadedMedia] = useState<MediaWithUrl | null>(null);
 
   const content = watch("content");
 
   const handleUpload = async () => {
+    if (!quillRef.current?.getEditor()) return;
+
+    const uploadedMedia = await uploadImage();
+    setUploadedMedia(uploadedMedia);
+  };
+
+  const handleUploadConfirmation = async ({
+    displayName,
+    altText,
+    caption,
+  }: UploadConfirmationFormValues) => {
+    if (!uploadedMedia) return;
+
+    await updateMediaMetadata({
+      mediaId: uploadedMedia.media.id,
+      displayName,
+      altText,
+      caption,
+    });
+
     const editor = quillRef.current?.getEditor();
     if (!editor) return;
 
-    const result = await uploadImage();
-    setUploadMediaResult(result);
-    // if (!result) return;
-
-    // const {url, media} = result;
-    // const range = editor.getSelection(true);
-    // editor.insertEmbed(range.index, "image", url, "user");
-    // editor.setSelection(range.index + 1, 0, "silent");
+    addMediaToEditor(uploadedMedia.url, editor);
+    setUploadedMedia(null);
+    setShowModal(false);
   };
 
-  const handleUploadConfirmation = () => {};
+  const handleSelectLibraryItem = (uploadedMedia: MediaWithUrl) => {
+    const editor = quillRef.current?.getEditor();
+    if (!editor) return;
+
+    addMediaToEditor(uploadedMedia.url, editor);
+    setShowModal(false);
+  };
 
   return (
     <FieldContainer label="Content">
@@ -87,9 +114,10 @@ export default function ContentEditorField() {
       {showModal && (
         <ImageActionsModal
           onClose={() => setShowModal(false)}
+          onSelectLibraryItem={handleSelectLibraryItem}
           onUpload={handleUpload}
           onUploadConfirmation={handleUploadConfirmation}
-          uploadMediaResult={uploadMediaResult}
+          uploadedMedia={uploadedMedia}
         />
       )}
     </FieldContainer>

@@ -1,14 +1,15 @@
 import Button from "@/_lib/button/Button";
-import { UploadMediaResult } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/actions";
+import { MediaWithUrl } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/actions";
 
 export default function LibraryItem({
-  item,
+  mediaWithUrl,
   onSelect,
 }: {
-  item: UploadMediaResult;
-  onSelect: (url: string) => void;
+  mediaWithUrl: MediaWithUrl;
+  onSelect: (mediaWithUrl: MediaWithUrl) => void;
 }) {
-  const { media, url } = item;
+  const { media, url } = mediaWithUrl;
+  const title = media.display_name.trim();
   const dimensions =
     media.width && media.height
       ? `${media.width}x${media.height}`
@@ -25,14 +26,14 @@ export default function LibraryItem({
       </div>
 
       <div className="min-w-0 flex-1">
-        <p className="truncate font-medium text-zinc-900">{media.alt_text}</p>
+        <p className="truncate font-medium text-zinc-900">{title}</p>
         <p className="truncate text-sm text-zinc-600">{media.path}</p>
         <p className="text-xs text-zinc-500">
           {media.mime_type} · {dimensions}
         </p>
       </div>
 
-      <Button primary onClick={() => onSelect(item.url)}>
+      <Button primary onClick={() => onSelect(mediaWithUrl)}>
         Select
       </Button>
     </div>

@@ -54,7 +54,9 @@ export default function PostForm({
         <ContentEditorField />
         <TagsField tags={tags} />
         <PublishField publishedAt={post?.published_at} />
-        <Button type="submit">Save</Button>
+        <Button type="submit" primary>
+          Save
+        </Button>
       </form>
     </FormProvider>
   );

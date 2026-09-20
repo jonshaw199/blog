@@ -1,7 +1,8 @@
 import {
+  MediaWithUrl,
   uploadMedia,
-  UploadMediaResult,
 } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/actions";
+import { Quill } from "react-quill-new";
 
 function getImageDimensions(
   file: File,
@@ -20,7 +21,7 @@ function getImageDimensions(
   });
 }
 
-export function uploadImage(): Promise<UploadMediaResult | null> {
+export function uploadImage(): Promise<MediaWithUrl | null> {
   return new Promise((resolve, reject) => {
     const input = document.createElement("input");
     input.type = "file";
@@ -33,12 +34,18 @@ export function uploadImage(): Promise<UploadMediaResult | null> {
       }
       try {
         const { width, height } = await getImageDimensions(file);
-        const result = await uploadMedia({ file, width, height });
-        resolve(result);
+        const mediaWithUrl = await uploadMedia({ file, width, height });
+        resolve(mediaWithUrl);
       } catch (error) {
         reject(error);
       }
     };
     input.click();
   });
+}
+
+export function addMediaToEditor(mediaUrl: string, editor: Quill) {
+  const range = editor.getSelection(true);
+  editor.insertEmbed(range.index, "image", mediaUrl, "user");
+  editor.setSelection(range.index + 1, 0, "silent");
 }

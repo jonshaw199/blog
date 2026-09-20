@@ -2,8 +2,8 @@ import Button from "@/_lib/button/Button";
 import FieldContainer from "@/_lib/form/fields/FieldContainer";
 import LibraryItem from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/LibraryItem";
 import {
+  MediaWithUrl,
   searchImage,
-  UploadMediaResult,
 } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/actions";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,10 +15,10 @@ type MediaLibrarySearchFormValues = {
 export default function Library({
   onSelect,
 }: {
-  onSelect: (url: string) => void;
+  onSelect: (mediaWithUrl: MediaWithUrl) => void;
 }) {
   const form = useForm<MediaLibrarySearchFormValues>();
-  const [response, setResponse] = useState<UploadMediaResult[] | null>(null);
+  const [mediaResults, setMediaResults] = useState<MediaWithUrl[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { register, handleSubmit } = form;
 
@@ -26,10 +26,10 @@ export default function Library({
     setErrorMessage(null);
 
     try {
-      const result = await searchImage({ keyword: name ?? "" });
-      setResponse(result);
+      const mediaResults = await searchImage({ keyword: name ?? "" });
+      setMediaResults(mediaResults);
     } catch (error) {
-      setResponse(null);
+      setMediaResults(null);
       setErrorMessage(error instanceof Error ? error.message : "Search failed");
     }
   };
@@ -56,13 +56,13 @@ export default function Library({
         <p className="text-sm text-red-600">{errorMessage}</p>
       ) : null}
 
-      {response ? (
+      {mediaResults ? (
         <div className="flex max-h-80 flex-col gap-2 overflow-auto">
-          {response.length ? (
-            response.map((item) => (
+          {mediaResults.length ? (
+            mediaResults.map((mediaWithUrl) => (
               <LibraryItem
-                key={item.media.id}
-                item={item}
+                key={mediaWithUrl.media.id}
+                mediaWithUrl={mediaWithUrl}
                 onSelect={onSelect}
               />
             ))
