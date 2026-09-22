@@ -37,7 +37,10 @@ export default function PostForm({
     },
   });
 
-  const { handleSubmit } = form;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = form;
 
   const onSubmit = (formValues: PostFormValues) =>
     post ? updatePost(post, formValues) : createPost(formValues);
@@ -54,9 +57,16 @@ export default function PostForm({
         <ContentEditorField />
         <TagsField tags={tags} />
         <PublishField publishedAt={post?.published_at} />
-        <Button type="submit" primary>
-          Save
-        </Button>
+        <div className="sticky bottom-0 -mx-1 bg-gray-100/95 p-2 backdrop-blur">
+          <Button
+            type="submit"
+            primary
+            disabled={isSubmitting}
+            className="w-full"
+          >
+            {isSubmitting ? "Saving..." : "Save"}
+          </Button>
+        </div>
       </form>
     </FormProvider>
   );

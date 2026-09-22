@@ -51,14 +51,22 @@ export default function ContentEditorField() {
   const [showModal, setShowModal] = useState(false);
   const quillRef = useRef<ReactQuill>(null);
   const [uploadedMedia, setUploadedMedia] = useState<MediaWithUrl | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const content = watch("content");
 
   const handleUpload = async () => {
+    setUploadedMedia(null);
     if (!quillRef.current?.getEditor()) return;
 
-    const uploadedMedia = await uploadImage();
-    setUploadedMedia(uploadedMedia);
+    setIsUploading(true);
+
+    try {
+      const uploadedMedia = await uploadImage();
+      setUploadedMedia(uploadedMedia);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleUploadConfirmation = async ({
@@ -114,10 +122,12 @@ export default function ContentEditorField() {
       {showModal && (
         <ImageActionsModal
           onClose={() => setShowModal(false)}
+          onCloseUploadConfirmation={() => setUploadedMedia(null)}
           onSelectLibraryItem={handleSelectLibraryItem}
           onUpload={handleUpload}
           onUploadConfirmation={handleUploadConfirmation}
           uploadedMedia={uploadedMedia}
+          isUploading={isUploading}
         />
       )}
     </FieldContainer>

@@ -1,9 +1,10 @@
-import { Tables } from "@/blog/_lib/supabase/database";
-import { getPublicUrl } from "@/blog/_lib/media";
-import Image from "next/image";
 import { formatDate } from "@/blog/_lib/date";
-import Link from "next/link";
+import { getPublicUrl } from "@/blog/_lib/media";
+import { PostListItem } from "@/blog/_lib/posts";
+import { Tables } from "@/blog/_lib/supabase/database";
 import { createServerClient } from "@/blog/_lib/supabase/client/server";
+import Image from "next/image";
+import Link from "next/link";
 
 async function Thumbnail({ thumbnail }: { thumbnail: Tables<"media"> }) {
   const supabase = await createServerClient();
@@ -21,7 +22,7 @@ async function Thumbnail({ thumbnail }: { thumbnail: Tables<"media"> }) {
 }
 
 function Tag({ tag }: { tag: Tables<"tags"> }) {
-  const color = tag.color ?? "#3b82f6"; // fallback blue
+  const color = tag.color ?? "#3b82f6";
 
   return (
     <span
@@ -47,18 +48,35 @@ function Tag({ tag }: { tag: Tables<"tags"> }) {
   );
 }
 
-export default async function PostPreview({
+function StatusBadge({ publishedAt }: { publishedAt: string | null }) {
+  const isPublished = Boolean(publishedAt);
+
+  return (
+    <span
+      className={`rounded-full border px-3 py-1 text-xs font-semibold ${isPublished ? "border-emerald-600 text-emerald-700" : "border-amber-600 text-amber-700"}`}
+    >
+      {isPublished ? "Published" : "Draft"}
+    </span>
+  );
+}
+
+export default async function PostCard({
   post,
-  thumbnail,
-  tags,
+  fallbackThumbnail,
+  href,
+  showStatus = false,
 }: {
-  post: Tables<"posts">;
-  thumbnail: Tables<"media"> | null;
-  tags: Tables<"tags">[] | null;
+  post: PostListItem;
+  fallbackThumbnail: Tables<"media"> | null;
+  href: string;
+  showStatus?: boolean;
 }) {
+  const thumbnail = post.thumbnail ?? fallbackThumbnail;
+  const tags = post.post_tags.map(({ tags: tag }) => tag);
+
   return (
     <Link
-      href={`/blog/${post.slug}`}
+      href={href}
       className="
     group
     flex
@@ -90,10 +108,14 @@ export default async function PostPreview({
       </div>
 
       <div className="grid flex-1 grid-rows-[1fr_2fr_1fr]">
-        <div className="flex items-start">
+        <div className="flex items-start justify-between gap-3">
           <span className="text-sm text-zinc-500 transition-colors group-hover:text-zinc-300 dark:text-zinc-400 dark:group-hover:text-zinc-600">
-            {formatDate(post.published_at)}
+            {post.published_at
+              ? formatDate(post.published_at)
+              : "Not published"}
           </span>
+
+          {showStatus ? <StatusBadge publishedAt={post.published_at} /> : null}
         </div>
 
         <div className="flex flex-col justify-center">
@@ -105,8 +127,8 @@ export default async function PostPreview({
         </div>
 
         <div className="flex items-end gap-2">
-          {tags?.map((t) => (
-            <Tag key={t.id} tag={t} />
+          {tags.map((tag) => (
+            <Tag key={tag.id} tag={tag} />
           ))}
         </div>
       </div>

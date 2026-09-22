@@ -20,7 +20,11 @@ export default function Library({
   const form = useForm<MediaLibrarySearchFormValues>();
   const [mediaResults, setMediaResults] = useState<MediaWithUrl[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { register, handleSubmit } = form;
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = form;
 
   const onSubmit = async ({ name }: MediaLibrarySearchFormValues) => {
     setErrorMessage(null);
@@ -40,6 +44,7 @@ export default function Library({
         <FieldContainer label="Name">
           <input
             {...register("name")}
+            disabled={isSubmitting}
             className="border rounded-lg max-w-50 p-1"
             onKeyDown={(event) => {
               if (event.key === "Enter") {
@@ -49,7 +54,12 @@ export default function Library({
             }}
           />
         </FieldContainer>
-        <Button onClick={() => void handleSubmit(onSubmit)()}>Search</Button>
+        <Button
+          disabled={isSubmitting}
+          onClick={() => void handleSubmit(onSubmit)()}
+        >
+          {isSubmitting ? "Searching..." : "Search"}
+        </Button>
       </div>
 
       {errorMessage ? (

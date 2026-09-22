@@ -27,7 +27,12 @@ export default function UploadConfirmation({
     },
   });
 
-  const { handleSubmit, register, reset } = form;
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { isSubmitting },
+  } = form;
 
   useEffect(() => {
     reset({
@@ -61,6 +66,7 @@ export default function UploadConfirmation({
         <FieldContainer label="Display name">
           <input
             {...register("displayName")}
+            disabled={isSubmitting}
             className="rounded-lg border px-4 py-2"
           />
         </FieldContainer>
@@ -68,6 +74,7 @@ export default function UploadConfirmation({
         <FieldContainer label="Alt text">
           <input
             {...register("altText")}
+            disabled={isSubmitting}
             className="rounded-lg border px-4 py-2"
           />
         </FieldContainer>
@@ -76,11 +83,14 @@ export default function UploadConfirmation({
           <textarea
             {...register("caption")}
             rows={3}
+            disabled={isSubmitting}
             className="rounded-lg border px-4 py-2"
           />
         </FieldContainer>
 
-        <Button type="submit">Save</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Saving..." : "Save"}
+        </Button>
       </form>
     </FormProvider>
   );
