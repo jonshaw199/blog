@@ -57,12 +57,12 @@ export default function PostForm({
         <ContentEditorField />
         <TagsField tags={tags} />
         <PublishField publishedAt={post?.published_at} />
-        <div className="sticky bottom-0 -mx-1 bg-gray-100/95 p-2 backdrop-blur">
+        <div className="sticky bottom-0 relative p-2 before:absolute before:inset-y-0 before:left-1/2 before:w-screen before:-translate-x-1/2 before:bg-gray-100/95 before:backdrop-blur before:content-['']">
           <Button
             type="submit"
             primary
             disabled={isSubmitting}
-            className="w-full"
+            className="relative z-10 w-full"
           >
             {isSubmitting ? "Saving..." : "Save"}
           </Button>
