@@ -30,7 +30,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <AppNavbar />
-        <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pt-8 sm:px-6 lg:px-8">
+        <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-3 pt-3">
           {children}
         </main>
       </body>
