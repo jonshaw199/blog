@@ -1,3 +1,4 @@
+import BackLink from "@/_lib/navigation/BackLink";
 import Post from "@/blog/[slug]/_lib/Post";
 import { getPostBySlug } from "@/blog/[slug]/_lib/post";
 
@@ -12,5 +13,10 @@ export default async function BlogPost({
 
   if (!post) return;
 
-  return <Post post={post} />;
+  return (
+    <div className="flex flex-col gap-6">
+      <BackLink href="/blog" label="Back to posts" />
+      <Post post={post} />
+    </div>
+  );
 }
