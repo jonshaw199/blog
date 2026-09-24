@@ -15,6 +15,7 @@ export async function createPost(data: PostFormValues) {
       title: data.title,
       description: data.description,
       content: data.content,
+      thumbnail_id: data.thumbnailId,
       published_at: data.isPublished ? new Date().toISOString() : null,
     })
     .select()
@@ -63,6 +64,7 @@ export async function updatePost(post: Tables<"posts">, data: PostFormValues) {
       title: data.title,
       description: data.description,
       content: data.content,
+      thumbnail_id: data.thumbnailId,
       updated_at: new Date().toISOString(),
       published_at: publishedAt,
     })

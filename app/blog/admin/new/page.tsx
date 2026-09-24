@@ -5,7 +5,7 @@ export default function NewBlogPostAdmin() {
   return (
     <div className="flex flex-col gap-6">
       <BackLink href="/blog/admin" label="Back to posts" />
-      <PostForm post={null} slug="" tags={[]} />
+      <PostForm post={null} slug="" tags={[]} thumbnail={null} />
     </div>
   );
 }

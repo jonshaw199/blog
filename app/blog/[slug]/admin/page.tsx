@@ -1,4 +1,6 @@
 import BackLink from "@/_lib/navigation/BackLink";
+import { getPublicUrl } from "@/blog/_lib/media";
+import { createServerClient } from "@/blog/_lib/supabase/client/server";
 import PostForm from "@/blog/[slug]/admin/_lib/form/PostForm";
 import { getPostBySlug } from "@/blog/[slug]/_lib/post";
 import { notFound } from "next/navigation";
@@ -9,6 +11,7 @@ export default async function BlogPostAdmin({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const supabase = await createServerClient();
 
   const { data: post } = await getPostBySlug(slug);
 
@@ -23,6 +26,14 @@ export default async function BlogPostAdmin({
         post={post}
         slug={post.slug}
         tags={post.post_tags.map(({ tag }) => tag)}
+        thumbnail={
+          post.thumbnail
+            ? {
+                media: post.thumbnail,
+                url: getPublicUrl(supabase, post.thumbnail),
+              }
+            : null
+        }
       />
     </div>
   );

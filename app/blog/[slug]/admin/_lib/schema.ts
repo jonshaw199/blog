@@ -5,6 +5,7 @@ export const postFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string(),
   content: z.string().min(1, "Content is required"),
+  thumbnailId: z.number().nullable(),
   isPublished: z.boolean(),
   tagIds: z.array(z.number()),
 });

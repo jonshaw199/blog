@@ -26,20 +26,44 @@ export function uploadImage(): Promise<MediaWithUrl | null> {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
+    let settled = false;
+
+    const resolveOnce = (value: MediaWithUrl | null) => {
+      if (settled) return;
+      settled = true;
+      resolve(value);
+    };
+
+    const rejectOnce = (error: unknown) => {
+      if (settled) return;
+      settled = true;
+      reject(error);
+    };
+
     input.onchange = async () => {
       const file = input.files?.[0];
       if (!file) {
-        resolve(null);
+        resolveOnce(null);
         return;
       }
       try {
         const { width, height } = await getImageDimensions(file);
         const mediaWithUrl = await uploadMedia({ file, width, height });
-        resolve(mediaWithUrl);
+        resolveOnce(mediaWithUrl);
       } catch (error) {
-        reject(error);
+        rejectOnce(error);
       }
     };
+
+    const handleWindowFocus = () => {
+      window.setTimeout(() => {
+        if (!input.files?.length) {
+          resolveOnce(null);
+        }
+      }, 0);
+    };
+
+    window.addEventListener("focus", handleWindowFocus, { once: true });
     input.click();
   });
 }

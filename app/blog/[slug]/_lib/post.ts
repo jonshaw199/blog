@@ -8,6 +8,7 @@ export async function getPostBySlug(slug: string) {
     .select(
       `
       *,
+      thumbnail:media (*),
       post_tags (
         tag:tags (*)
       )
