@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import ContentEditorField from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/ContentEditorField";
 import DescriptionField from "@/blog/[slug]/admin/_lib/form/fields/DescriptionField";
@@ -25,6 +26,7 @@ export default function PostForm({
   slug: Tables<"posts">["slug"];
   tags: Tables<"tags">[];
 }) {
+  const router = useRouter();
   const form = useForm<PostFormValues>({
     resolver: zodResolver(postFormSchema),
     defaultValues: {
@@ -42,8 +44,14 @@ export default function PostForm({
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = (formValues: PostFormValues) =>
-    post ? updatePost(post, formValues) : createPost(formValues);
+  const onSubmit = async (formValues: PostFormValues) => {
+    const savedPost = post
+      ? await updatePost(post, formValues)
+      : await createPost(formValues);
+
+    router.push(`/blog/${savedPost.slug}/admin`);
+    router.refresh();
+  };
 
   return (
     <FormProvider {...form}>

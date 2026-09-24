@@ -1,3 +1,4 @@
+import Link from "next/link";
 import PostCard from "@/blog/_lib/PostCard";
 import { getFallbackThumbnail, getPosts } from "@/blog/_lib/posts";
 
@@ -10,6 +11,13 @@ export default async function BlogAdmin() {
 
   return (
     <div className="flex flex-col gap-3">
+      <Link
+        href="/blog/admin/new"
+        className="inline-flex w-fit items-center justify-center rounded-lg bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700"
+      >
+        New post
+      </Link>
+
       {posts?.map((post) => (
         <PostCard
           key={post.id}

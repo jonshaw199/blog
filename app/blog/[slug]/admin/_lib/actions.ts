@@ -37,7 +37,10 @@ export async function createPost(data: PostFormValues) {
     }
   }
 
+  revalidatePath("/blog");
+  revalidatePath("/blog/admin");
   revalidatePath(`/blog/${post.slug}`);
+  revalidatePath(`/blog/${post.slug}/admin`);
 
   return post;
 }
@@ -115,7 +118,12 @@ export async function updatePost(post: Tables<"posts">, data: PostFormValues) {
     }
   }
 
+  revalidatePath("/blog");
+  revalidatePath("/blog/admin");
+  revalidatePath(`/blog/${post.slug}`);
+  revalidatePath(`/blog/${post.slug}/admin`);
   revalidatePath(`/blog/${updatedPost.slug}`);
+  revalidatePath(`/blog/${updatedPost.slug}/admin`);
 
   return updatedPost;
 }

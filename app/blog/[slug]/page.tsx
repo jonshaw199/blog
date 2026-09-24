@@ -14,7 +14,7 @@ export default async function BlogPost({
   if (!post) return;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-2">
       <BackLink href="/blog" label="Back to posts" />
       <Post post={post} />
     </div>
