@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
 import "@/globals.css";
 import AppNavbar from "@/_lib/navigation/AppNavbar";
 
@@ -30,14 +29,18 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <Script id="theme" strategy="beforeInteractive">
-        {`(() => {
-          const theme = localStorage.getItem('theme');
-          const dark = theme ? theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-          document.documentElement.classList.toggle('dark', dark);
-          document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
-        })()`}
-      </Script>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => {
+              const theme = localStorage.getItem('theme');
+              const dark = theme ? theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+              document.documentElement.classList.toggle('dark', dark);
+              document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+            })()`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <AppNavbar />
         <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-3 pt-3">
