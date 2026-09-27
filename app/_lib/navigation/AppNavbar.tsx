@@ -18,7 +18,7 @@ export default async function AppNavbar() {
             href="/blog"
             className="flex items-center gap-3 self-start rounded-2xl transition-opacity hover:opacity-85"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent text-sm font-semibold tracking-[0.24em] text-white shadow-[0_10px_24px_rgba(37,99,235,0.24)]">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-accent text-sm font-semibold leading-none tracking-[0.24em] text-white shadow-[0_10px_24px_rgba(37,99,235,0.24)]">
               JS
             </span>
 
