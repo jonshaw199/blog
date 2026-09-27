@@ -77,39 +77,15 @@ export default async function PostCard({
   return (
     <Link
       href={href}
-      className="
-    group
-    flex
-    gap-4
-    rounded-xl
-    p-3
-    transition-all
-    duration-200
-
-    bg-white
-    text-zinc-900
-
-    hover:bg-zinc-800
-    hover:text-white
-    hover:-translate-y-1
-    hover:shadow-xl
-
-    dark:bg-zinc-900
-    dark:text-zinc-100
-
-    dark:hover:bg-white
-    dark:hover:text-zinc-900
-
-    active:scale-[0.98]
-  "
+      className="group flex flex-col gap-4 rounded-[1.5rem] border border-border bg-surface/85 p-3 text-foreground shadow-[0_18px_60px_rgba(15,23,42,0.06)] transition-all duration-200 hover:-translate-y-1 hover:border-accent/30 hover:bg-surface-strong hover:shadow-[0_24px_80px_rgba(15,23,42,0.12)] active:scale-[0.98] md:flex-row md:items-stretch"
     >
-      <div className="relative h-[clamp(8rem,25vw,16rem)] w-[clamp(8rem,25vw,16rem)] shrink-0 overflow-hidden rounded-lg">
+      <div className="relative h-48 w-full shrink-0 overflow-hidden rounded-lg md:h-[clamp(8rem,25vw,16rem)] md:w-[clamp(8rem,25vw,16rem)] md:self-center">
         {thumbnail && <Thumbnail thumbnail={thumbnail} />}
       </div>
 
-      <div className="grid flex-1 grid-rows-[1fr_2fr_1fr]">
+      <div className="grid flex-1 grid-rows-[auto_1fr_auto] gap-3 md:grid-rows-[1fr_2fr_1fr] md:gap-0">
         <div className="flex items-start justify-between gap-3">
-          <span className="text-sm text-zinc-500 transition-colors group-hover:text-zinc-300 dark:text-zinc-400 dark:group-hover:text-zinc-600">
+          <span className="text-sm text-muted transition-colors group-hover:text-foreground/80">
             {post.published_at
               ? formatDate(post.published_at)
               : "Not published"}
@@ -119,9 +95,11 @@ export default async function PostCard({
         </div>
 
         <div className="flex flex-col justify-center">
-          <h2 className="text-3xl font-bold leading-tight">{post.title}</h2>
+          <h2 className="text-3xl font-semibold leading-tight tracking-tight">
+            {post.title}
+          </h2>
 
-          <p className="mt-2 text-zinc-600 transition-colors group-hover:text-zinc-300 dark:text-zinc-400 dark:group-hover:text-zinc-600">
+          <p className="mt-2 text-muted transition-colors group-hover:text-foreground/80">
             {post.description}
           </p>
         </div>
