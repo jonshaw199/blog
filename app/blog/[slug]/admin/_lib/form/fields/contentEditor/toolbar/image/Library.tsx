@@ -40,12 +40,12 @@ export default function Library({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-2 items-end">
+      <div className="flex items-end gap-2">
         <FieldContainer label="Name">
           <input
             {...register("name")}
             disabled={isSubmitting}
-            className="border rounded-lg max-w-50 p-1"
+            className="w-full max-w-50 rounded-lg border border-border bg-surface px-3 py-2 text-foreground outline-none transition-colors placeholder:text-muted focus:border-accent"
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 event.preventDefault();
@@ -77,11 +77,11 @@ export default function Library({
               />
             ))
           ) : (
-            <p className="p-2 text-sm text-zinc-600">No results.</p>
+            <p className="p-2 text-sm text-muted">No results.</p>
           )}
         </div>
       ) : (
-        <p className="p-2 text-sm text-zinc-600">No results yet.</p>
+        <p className="p-2 text-sm text-muted">No results yet.</p>
       )}
     </div>
   );

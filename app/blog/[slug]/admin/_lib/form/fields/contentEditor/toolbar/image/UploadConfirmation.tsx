@@ -45,8 +45,8 @@ export default function UploadConfirmation({
   return (
     <FormProvider {...form}>
       <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex items-start gap-3 rounded-lg border p-3">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded bg-zinc-100">
+        <div className="flex items-start gap-3 rounded-xl border border-border bg-surface p-3">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded bg-black/5 dark:bg-white/8">
             <img
               src={url}
               alt={media.alt_text}
@@ -55,11 +55,11 @@ export default function UploadConfirmation({
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="truncate font-medium text-zinc-900">
+            <p className="truncate font-medium text-foreground">
               {media.display_name}
             </p>
-            <p className="truncate text-sm text-zinc-600">{media.path}</p>
-            <p className="text-xs text-zinc-500">{media.mime_type}</p>
+            <p className="truncate text-sm text-muted">{media.path}</p>
+            <p className="text-xs text-muted">{media.mime_type}</p>
           </div>
         </div>
 
@@ -67,7 +67,7 @@ export default function UploadConfirmation({
           <input
             {...register("displayName")}
             disabled={isSubmitting}
-            className="rounded-lg border px-4 py-2"
+            className="rounded-lg border border-border bg-surface px-4 py-2 text-foreground outline-none transition-colors placeholder:text-muted focus:border-accent"
           />
         </FieldContainer>
 
@@ -75,7 +75,7 @@ export default function UploadConfirmation({
           <input
             {...register("altText")}
             disabled={isSubmitting}
-            className="rounded-lg border px-4 py-2"
+            className="rounded-lg border border-border bg-surface px-4 py-2 text-foreground outline-none transition-colors placeholder:text-muted focus:border-accent"
           />
         </FieldContainer>
 
@@ -84,7 +84,7 @@ export default function UploadConfirmation({
             {...register("caption")}
             rows={3}
             disabled={isSubmitting}
-            className="rounded-lg border px-4 py-2"
+            className="rounded-lg border border-border bg-surface px-4 py-2 text-foreground outline-none transition-colors placeholder:text-muted focus:border-accent"
           />
         </FieldContainer>
 

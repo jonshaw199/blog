@@ -14,7 +14,7 @@ export default function Button({
   return (
     <button
       type={type}
-      className={`rounded-lg px-6 py-2 font-medium ${primary ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-gray-200 hover:bg-gray-300"}${className ? ` ${className}` : ""}`}
+      className={`rounded-lg border px-6 py-2 font-medium transition-colors duration-200 ${primary ? "border-transparent bg-accent text-white hover:opacity-90" : "border-border bg-surface text-foreground hover:bg-black/5 dark:hover:bg-white/8"}${className ? ` ${className}` : ""}`}
       {...props}
     >
       {children ?? "OK"}

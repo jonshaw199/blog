@@ -13,7 +13,7 @@ export default function FieldContainer({
 }: FieldContainerProps) {
   return (
     <div className={className}>
-      <label className="text-zinc-600">{label}</label>
+      <label className="text-sm font-medium text-muted">{label}</label>
       {children}
     </div>
   );

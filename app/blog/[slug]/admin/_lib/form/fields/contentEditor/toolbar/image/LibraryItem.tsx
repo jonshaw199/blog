@@ -16,8 +16,8 @@ export default function LibraryItem({
       : "Unknown size";
 
   return (
-    <div className="flex items-center gap-3 rounded-lg border p-3">
-      <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded bg-zinc-100">
+    <div className="flex items-center gap-3 rounded-xl border border-border bg-surface p-3">
+      <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded bg-black/5 dark:bg-white/8">
         <img
           src={url}
           alt={media.alt_text}
@@ -26,9 +26,9 @@ export default function LibraryItem({
       </div>
 
       <div className="min-w-0 flex-1">
-        <p className="truncate font-medium text-zinc-900">{title}</p>
-        <p className="truncate text-sm text-zinc-600">{media.path}</p>
-        <p className="text-xs text-zinc-500">
+        <p className="truncate font-medium text-foreground">{title}</p>
+        <p className="truncate text-sm text-muted">{media.path}</p>
+        <p className="text-xs text-muted">
           {media.mime_type} · {dimensions}
         </p>
       </div>

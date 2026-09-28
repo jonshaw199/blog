@@ -71,7 +71,7 @@ export default function PostForm({
         <ContentEditorField />
         <TagsField tags={tags} />
         <PublishField publishedAt={post?.published_at} />
-        <div className="sticky bottom-0 relative p-2 before:absolute before:inset-y-0 before:left-1/2 before:w-screen before:-translate-x-1/2 before:bg-gray-100/95 before:backdrop-blur before:content-['']">
+        <div className="sticky bottom-0 relative p-2 before:absolute before:inset-y-0 before:left-1/2 before:w-screen before:-translate-x-1/2 before:border-t before:border-border before:bg-surface-strong/95 before:backdrop-blur before:content-['']">
           <Button
             type="submit"
             primary

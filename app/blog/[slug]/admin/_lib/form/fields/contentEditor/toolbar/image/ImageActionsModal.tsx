@@ -45,10 +45,10 @@ export default function ImageActionsModal({
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="max-h-full overflow-auto w-full max-w-lg rounded-lg bg-white p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
+      <div className="max-h-full w-full max-w-2xl overflow-auto rounded-[1.75rem] border border-border bg-surface-strong p-6 text-foreground shadow-[0_24px_80px_rgba(15,23,42,0.28)]">
         <div>
-          <div className="flex justify-evenly flex-grow">
+          <div className="flex flex-wrap justify-center gap-3">
             <Button disabled={isUploading} onClick={handleLibrary}>
               Library
             </Button>
@@ -62,13 +62,13 @@ export default function ImageActionsModal({
         </div>
         {showLibrary && (
           <div>
-            <hr className="my-3" />
+            <hr className="my-4 border-border" />
             <Library onSelect={onSelectLibraryItem} />
           </div>
         )}
         {uploadedMedia && (
           <>
-            <hr className="my-3" />
+            <hr className="my-4 border-border" />
             <UploadConfirmation
               uploadedMedia={uploadedMedia}
               onSubmit={onUploadConfirmation}
