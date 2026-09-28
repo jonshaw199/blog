@@ -13,7 +13,7 @@ export default async function BlogAdmin() {
     <div className="flex flex-col gap-3">
       <Link
         href="/blog/admin/new"
-        className="inline-flex w-fit items-center justify-center rounded-lg bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700"
+        className="inline-flex w-fit items-center justify-center rounded-lg border border-transparent bg-accent px-6 py-2 font-medium text-white transition-colors duration-200 hover:opacity-90"
       >
         New post
       </Link>
