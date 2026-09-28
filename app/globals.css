@@ -40,21 +40,34 @@
   --accent-strong: #a855f7;
 }
 
-body {
-  min-height: 100vh;
+html {
+  min-height: 100%;
   background:
     radial-gradient(circle at top left, rgba(37, 99, 235, 0.18), transparent 26%),
     radial-gradient(circle at 82% 16%, rgba(124, 58, 237, 0.14), transparent 22%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.56), transparent 40%),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+    linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
     var(--background);
+  background-attachment: fixed;
+  background-size: auto, auto, auto, 32px 32px, 32px 32px, auto;
+}
+
+body {
+  min-height: 100vh;
+  background: transparent;
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
-.dark body {
+.dark html {
   background:
     radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 24%),
     radial-gradient(circle at 82% 16%, rgba(168, 85, 247, 0.12), transparent 22%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 38%),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+    linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
     var(--background);
+  background-attachment: fixed;
+  background-size: auto, auto, auto, 32px 32px, 32px 32px, auto;
 }
