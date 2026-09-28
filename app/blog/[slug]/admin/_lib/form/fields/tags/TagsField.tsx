@@ -5,7 +5,7 @@ import { PostFormValues } from "@/blog/[slug]/admin/_lib/schema";
 import { Tables } from "@/blog/_lib/supabase/database";
 import { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { ActionMeta, MultiValue } from "react-select";
+import { ActionMeta, MultiValue, StylesConfig } from "react-select";
 import makeAnimated from "react-select/animated";
 import AsyncCreatableSelect from "react-select/async-creatable";
 
@@ -15,6 +15,93 @@ type TagOption = {
 };
 
 const animatedComponents = makeAnimated();
+
+const selectStyles: StylesConfig<TagOption, true> = {
+  control: (base, state) => ({
+    ...base,
+    backgroundColor: "var(--surface)",
+    borderColor: state.isFocused ? "var(--accent)" : "var(--border)",
+    boxShadow: state.isFocused ? "0 0 0 1px var(--accent)" : "none",
+    color: "var(--foreground)",
+    ":hover": {
+      borderColor: "var(--accent)",
+    },
+  }),
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "var(--surface-strong)",
+    border: "1px solid var(--border)",
+    boxShadow: "0 24px 80px rgba(15,23,42,0.16)",
+    overflow: "hidden",
+  }),
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isSelected
+      ? "var(--accent)"
+      : state.isFocused
+        ? "color-mix(in srgb, var(--accent) 12%, var(--surface-strong))"
+        : "var(--surface-strong)",
+    color: state.isSelected ? "#ffffff" : "var(--foreground)",
+    ":active": {
+      backgroundColor: "color-mix(in srgb, var(--accent) 20%, var(--surface-strong))",
+    },
+  }),
+  input: (base) => ({
+    ...base,
+    color: "var(--foreground)",
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: "var(--foreground)",
+  }),
+  multiValue: (base) => ({
+    ...base,
+    backgroundColor: "color-mix(in srgb, var(--accent) 14%, var(--surface))",
+    border: "1px solid color-mix(in srgb, var(--accent) 28%, var(--border))",
+  }),
+  multiValueLabel: (base) => ({
+    ...base,
+    color: "var(--foreground)",
+  }),
+  multiValueRemove: (base) => ({
+    ...base,
+    color: "var(--muted)",
+    ":hover": {
+      backgroundColor: "transparent",
+      color: "var(--foreground)",
+    },
+  }),
+  placeholder: (base) => ({
+    ...base,
+    color: "var(--muted)",
+  }),
+  dropdownIndicator: (base) => ({
+    ...base,
+    color: "var(--muted)",
+    ":hover": {
+      color: "var(--foreground)",
+    },
+  }),
+  clearIndicator: (base) => ({
+    ...base,
+    color: "var(--muted)",
+    ":hover": {
+      color: "var(--foreground)",
+    },
+  }),
+  indicatorSeparator: (base) => ({
+    ...base,
+    backgroundColor: "var(--border)",
+  }),
+  loadingMessage: (base) => ({
+    ...base,
+    color: "var(--muted)",
+  }),
+  noOptionsMessage: (base) => ({
+    ...base,
+    color: "var(--muted)",
+  }),
+};
 
 const loadOptions = async ({
   searchStr,
@@ -84,6 +171,7 @@ export default function TagsField({ tags }: { tags: Tables<"tags">[] }) {
         isMulti
         closeMenuOnSelect={false}
         components={animatedComponents}
+        styles={selectStyles}
         onCreateOption={handleCreate}
         options={options}
         value={selected}

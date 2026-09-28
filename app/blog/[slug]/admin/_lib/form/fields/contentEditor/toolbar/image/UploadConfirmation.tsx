@@ -1,7 +1,7 @@
 import Button from "@/_lib/button/Button";
 import FieldContainer from "@/_lib/form/fields/FieldContainer";
 import { MediaWithUrl } from "@/blog/[slug]/admin/_lib/form/fields/contentEditor/toolbar/image/actions";
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 export type UploadConfirmationFormValues = {
@@ -42,9 +42,14 @@ export default function UploadConfirmation({
     });
   }, [uploadedMedia, reset]);
 
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.stopPropagation();
+    void handleSubmit(onSubmit)(event);
+  };
+
   return (
     <FormProvider {...form}>
-      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-3" onSubmit={handleFormSubmit}>
         <div className="flex items-start gap-3 rounded-xl border border-border bg-surface p-3">
           <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded bg-black/5 dark:bg-white/8">
             <img
