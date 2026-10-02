@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/globals.css";
 import AppNavbar from "@/_lib/navigation/AppNavbar";
 
+const siteUrl = new URL("https://jonshaw199.com");
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -14,8 +16,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jon's Blog",
-  description: "Editorial blog and admin workspace",
+  metadataBase: siteUrl,
+  title: {
+    default: "Jon Shaw",
+    template: "%s | Jon Shaw",
+  },
+  description: "Jon Shaw's home page.",
+  openGraph: {
+    siteName: "Jon Shaw",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

@@ -1,5 +1,35 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import RecoveryRedirectGuard from "@/_lib/auth/RecoveryRedirectGuard";
+
+const siteUrl = new URL("https://jonshaw199.com");
+
+export const metadata: Metadata = {
+  title: "Jon Shaw",
+  description: "Jon Shaw's home page.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Jon Shaw",
+    description: "Jon Shaw's home page.",
+    url: new URL("/", siteUrl),
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 2400,
+        height: 1260,
+        alt: "Jon Shaw",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jon Shaw",
+    description: "Jon Shaw's home page.",
+    images: ["/opengraph-image"],
+  },
+};
 
 export default function Home() {
   return (
