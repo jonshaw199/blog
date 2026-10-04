@@ -6,7 +6,7 @@ export default async function Blog() {
   const { data: fallbackThumbnail } = await getFallbackThumbnail();
 
   return (
-    <>
+    <div className="flex flex-col gap-3">
       {posts?.map((post) => (
         <PostCard
           key={post.id}
@@ -15,6 +15,6 @@ export default async function Blog() {
           href={`/blog/${post.slug}`}
         />
       ))}
-    </>
+    </div>
   );
 }
