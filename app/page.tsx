@@ -5,28 +5,28 @@ import RecoveryRedirectGuard from "@/_lib/auth/RecoveryRedirectGuard";
 const siteUrl = new URL("https://jonshaw199.com");
 
 export const metadata: Metadata = {
-  title: "Jon Shaw",
-  description: "Jon Shaw's home page.",
+  title: "Blog",
+  description: "Writing on software, systems, and the craft of building thoughtful products.",
   alternates: {
-    canonical: "/",
+    canonical: "/blog",
   },
   openGraph: {
-    title: "Jon Shaw",
-    description: "Jon Shaw's home page.",
-    url: new URL("/", siteUrl),
+    title: "Jon Shaw | Blog",
+    description: "Writing on software, systems, and the craft of building thoughtful products.",
+    url: new URL("/blog", siteUrl),
     images: [
       {
         url: "/opengraph-image",
         width: 2400,
         height: 1260,
-        alt: "Jon Shaw",
+        alt: "Jon Shaw blog preview",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jon Shaw",
-    description: "Jon Shaw's home page.",
+    title: "Jon Shaw | Blog",
+    description: "Writing on software, systems, and the craft of building thoughtful products.",
     images: ["/opengraph-image"],
   },
 };

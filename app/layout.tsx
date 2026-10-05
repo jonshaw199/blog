@@ -18,16 +18,33 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: siteUrl,
   title: {
-    default: "Jon Shaw",
-    template: "%s | Jon Shaw",
+    default: "Jon Shaw | Blog",
+    template: "%s | Jon Shaw Blog",
   },
-  description: "Jon Shaw's home page.",
+  description: "Writing on software, systems, and the craft of building thoughtful products.",
+  alternates: {
+    canonical: new URL("/blog", siteUrl),
+  },
   openGraph: {
+    title: "Jon Shaw | Blog",
+    description: "Writing on software, systems, and the craft of building thoughtful products.",
+    url: new URL("/blog", siteUrl),
     siteName: "Jon Shaw",
     type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Jon Shaw blog preview",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    title: "Jon Shaw | Blog",
+    description: "Writing on software, systems, and the craft of building thoughtful products.",
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
