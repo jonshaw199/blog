@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/globals.css";
 import AppNavbar from "@/_lib/navigation/AppNavbar";
@@ -80,6 +81,7 @@ export default function RootLayout({
         <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-3 pt-3">
           {children}
         </main>
+        <Analytics />
       </body>
     </html>
   );
